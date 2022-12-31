@@ -5,6 +5,21 @@ const main = async () => {
   const waveContract = await waveContractFactory.deploy();
   await waveContract.deployed();
   console.log("Contract deployed to:", waveContract.address);
+
+  await waveContract.getTotalWaves();
+
+  const signers = await hre.ethers.getSigners();
+  const secondPerson = signers[1];
+  const waveTxn1 = await waveContract.wave();
+  await waveTxn1.wait();
+  const waveTxn2 = await waveContract.connect(secondPerson).wave();
+  await waveTxn2.wait();
+  const waveTxn3 = await waveContract.wave();
+  await waveTxn3.wait();
+
+  await waveContract.getTotalWaves();
+  const highestWavesAddress = await waveContract.getHighestWavesAddress();
+  console.log(`highest waves address: ${highestWavesAddress}`)
 };
 
 const runMain = async () => {
