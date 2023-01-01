@@ -8,9 +8,8 @@ const main = async () => {
 
   await waveContract.getTotalWaves();
 
-  const signers = await hre.ethers.getSigners();
-  const secondPerson = signers[1];
-  const waveTxn1 = await waveContract.wave();
+  const [firstPerson, secondPerson]= await hre.ethers.getSigners();
+  const waveTxn1 = await waveContract.connect(secondPerson).wave();
   await waveTxn1.wait();
   const waveTxn2 = await waveContract.connect(secondPerson).wave();
   await waveTxn2.wait();
@@ -19,7 +18,9 @@ const main = async () => {
 
   await waveContract.getTotalWaves();
   const highestWavesAddress = await waveContract.getHighestWavesAddress();
-  console.log(`highest waves address: ${highestWavesAddress}`)
+  console.log(`highest waves address: ${highestWavesAddress}`);
+  const secondPersonWaveCount = await waveContract.getMyWaveCount();
+  console.log(`wave count for ${secondPersonWaveCount}`)
 };
 
 const runMain = async () => {

@@ -18,15 +18,17 @@ contract WavePortal {
         if(localWaves[msg.sender] > localWaves[highestWaver]) {
             highestWaver = msg.sender;
         }
-        console.log("%s has waved!, your local waves are %d", msg.sender, localWaves[msg.sender]);
     }
 
     function getTotalWaves() public view returns (uint) {
-        console.log("total waves: %d", totalWaves);
         return totalWaves;
     }
 
     function getHighestWavesAddress() public view returns (address) {
         return highestWaver;
+    }
+
+    function getMyWaveCount() public view returns (uint) {
+        return localWaves[msg.sender];
     }
 }
