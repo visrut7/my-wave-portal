@@ -36,5 +36,18 @@ describe("WavePortal", () => {
             expect(firstPersonWaveCount).to.equal(2);
             expect(secondPersonWaveCount).to.equal(3);
         })
+
+        it("Should return highest wave address correct", async () => {
+            const [firstAccount, secondAccount] = await ethers.getSigners();
+            const wavePortal = await deployWavePortalFixture();
+            await wavePortal.connect(secondAccount).wave()
+            await wavePortal.connect(firstAccount).wave();
+            await wavePortal.connect(secondAccount).wave()
+            await wavePortal.connect(firstAccount).wave();
+            await wavePortal.connect(secondAccount).wave()
+
+            const highestWaveAddress = await wavePortal.getHighestWavesAddress();
+            expect(highestWaveAddress).to.equal(secondAccount.address);
+        })
     })
 })

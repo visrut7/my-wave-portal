@@ -11,6 +11,7 @@ const main = async () => {
     await waveContract.deployed();
 
     console.log(`contract deployed with account: ${deployer.address}`);
+    console.log(`contract deployed to: ${waveContract.address}`);
     console.log(`Account balance: ${accountBalance.toString()}`);
 }
 

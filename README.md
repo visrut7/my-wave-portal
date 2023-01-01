@@ -9,10 +9,21 @@ npx hardhat run scripts/deploy.ts
 ```
 
 ### install dependencies
-> `npm i`
+```sh
+$ npm i
+```
 
 ### Test
-> `npx hardhat test`
+```sh
+$ npx hardhat test
+```
 
 ### run perticular script
-> `npx hardhat run scripts/run.ts`
+```sh
+$ npx hardhat run scripts/run.ts
+```
+
+### deploy contract
+```sh
+$ npx hardhat run scripts/deploy.js --network goerli
+```

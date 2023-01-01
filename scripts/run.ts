@@ -16,11 +16,12 @@ const main = async () => {
   const waveTxn3 = await waveContract.wave();
   await waveTxn3.wait();
 
-  await waveContract.getTotalWaves();
+  const totalWaveCount = await waveContract.getTotalWaves();
+  console.log(`totalWaveCount: ${totalWaveCount}`);
   const highestWavesAddress = await waveContract.getHighestWavesAddress();
   console.log(`highest waves address: ${highestWavesAddress}`);
-  const secondPersonWaveCount = await waveContract.getMyWaveCount();
-  console.log(`wave count for ${secondPersonWaveCount}`)
+  const secondPersonWaveCount = await waveContract.connect(secondPerson).getMyWaveCount();
+  console.log(`wave count for second person ${secondPersonWaveCount}`)
 };
 
 const runMain = async () => {
