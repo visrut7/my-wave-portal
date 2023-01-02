@@ -13,13 +13,13 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 const config: HardhatUserConfig = {
   solidity: "0.8.17",
   networks: {
-    hardhat: {},
     defaultNetwork: {
-      url: 'goerli',
+      url: 'hardhat',
     },
+    hardhat: {},
     goerli: {
-      url: process.env.STAGING_QUICKNODE_KEY,
-      accounts: [process.env.PRIVATE_KEY!]
+      url: process.env.STAGING_QUICKNODE_KEY || "https://dummy.url.com",
+      accounts: [process.env.PRIVATE_KEY || "0x1234567890123456789012345678901234567890123456789012345678901234" ]
     }
   }
 };
