@@ -6,22 +6,25 @@ const main = async () => {
   await waveContract.deployed();
   console.log("Contract deployed to:", waveContract.address);
 
-  await waveContract.getTotalWaves();
+  await waveContract.getTotalWavesCount();
 
-  const [firstPerson, secondPerson]= await hre.ethers.getSigners();
-  const waveTxn1 = await waveContract.connect(secondPerson).wave();
+  const [firstPerson, secondPerson] = await hre.ethers.getSigners();
+  const waveTxn1 = await waveContract.connect(secondPerson).wave("A message!");
   await waveTxn1.wait();
-  const waveTxn2 = await waveContract.connect(secondPerson).wave();
+  const waveTxn2 = await waveContract.connect(secondPerson).wave("A second message!");
   await waveTxn2.wait();
-  const waveTxn3 = await waveContract.wave();
+  const waveTxn3 = await waveContract.wave("A third message!");
   await waveTxn3.wait();
 
-  const totalWaveCount = await waveContract.getTotalWaves();
+  const totalWaveCount = await waveContract.getTotalWavesCount();
   console.log(`totalWaveCount: ${totalWaveCount}`);
-  const highestWavesAddress = await waveContract.getHighestWavesAddress();
+  const highestWavesAddress = await waveContract.getHighestWaveAddress();
   console.log(`highest waves address: ${highestWavesAddress}`);
   const secondPersonWaveCount = await waveContract.connect(secondPerson).getMyWaveCount();
   console.log(`wave count for second person ${secondPersonWaveCount}`)
+
+  const waves = await waveContract.getAllWaves();
+  console.log(`waves: ${waves}`);
 };
 
 const runMain = async () => {
