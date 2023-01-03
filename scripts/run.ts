@@ -1,20 +1,38 @@
 import hre from "hardhat";
 
 const main = async () => {
+  const lockedAmount = hre.ethers.utils.parseEther("1");
+
   const waveContractFactory = await hre.ethers.getContractFactory("WavePortal");
-  const waveContract = await waveContractFactory.deploy();
+  const waveContract = await waveContractFactory.deploy({ value: lockedAmount });
   await waveContract.deployed();
   console.log("Contract deployed to:", waveContract.address);
+
+
+  let contractBalance = await hre.ethers.provider.getBalance(
+    waveContract.address
+  );
+  console.log(
+    "Contract balance:",
+    hre.ethers.utils.formatEther(contractBalance)
+  );
 
   await waveContract.getTotalWavesCount();
 
   const [firstPerson, secondPerson] = await hre.ethers.getSigners();
   const waveTxn1 = await waveContract.connect(secondPerson).wave("A message!");
   await waveTxn1.wait();
-  const waveTxn2 = await waveContract.connect(secondPerson).wave("A second message!");
+  const waveTxn2 = await waveContract.connect(firstPerson).wave("A second message!");
   await waveTxn2.wait();
-  const waveTxn3 = await waveContract.wave("A third message!");
-  await waveTxn3.wait();
+
+  contractBalance = await hre.ethers.provider.getBalance(waveContract.address);
+  console.log(
+    "Contract balance:",
+    hre.ethers.utils.formatEther(contractBalance)
+  );
+
+  let allWaves = await waveContract.getAllWaves();
+  console.log(allWaves);
 
   const totalWaveCount = await waveContract.getTotalWavesCount();
   console.log(`totalWaveCount: ${totalWaveCount}`);
